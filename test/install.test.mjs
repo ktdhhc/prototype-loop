@@ -24,6 +24,34 @@ test('installs only the skill files into a project', async () => {
   })
 })
 
+test('installs into the current project when no subcommand is given', async () => {
+  await withTempDir(async (project) => {
+    const destination = await install([], { cwd: project })
+    assert.equal(destination, join(project, '.agents', 'skills', 'prototype-loop'))
+    assert.match(await readFile(join(destination, 'SKILL.md'), 'utf8'), /name: prototype-loop/)
+  })
+})
+
+test('accepts --dir, -g and --project', async () => {
+  await withTempDir(async (project) => {
+    const destination = await install(['--dir', project], { cwd: tmpdir() })
+    assert.equal(destination, join(project, '.agents', 'skills', 'prototype-loop'))
+  })
+  await withTempDir(async (home) => {
+    const destination = await install(['-g'], { home })
+    assert.equal(destination, join(home, '.agents', 'skills', 'prototype-loop'))
+  })
+  await withTempDir(async (project) => {
+    const destination = await install(['--project', project], { cwd: tmpdir() })
+    assert.equal(destination, join(project, '.agents', 'skills', 'prototype-loop'))
+  })
+})
+
+test('rejects unknown arguments and missing option values', async () => {
+  await assert.rejects(install(['--wat']), /未知参数/)
+  await assert.rejects(install(['--project']), /缺少参数值/)
+})
+
 test('does not overwrite an existing skill', async () => {
   await withTempDir(async (project) => {
     const destination = await install(['install'], { cwd: project })

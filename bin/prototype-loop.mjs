@@ -9,25 +9,39 @@ const skillName = 'prototype-loop'
 const source = fileURLToPath(new URL('..', import.meta.url))
 
 function usage() {
-  return `用法：prototype-loop install [--project <目录> | --global]\n\n--project <目录>  安装到 <目录>/.agents/skills/${skillName}（默认当前目录）\n--global          安装到 ~/.agents/skills/${skillName}\n--help            显示帮助\n\n目标目录已存在时不会覆盖。`
+  return `用法：prototype-loop [install] [选项]
+
+不写 install 时默认安装到当前项目的 .agents/skills/${skillName}。
+
+选项：
+  --project <目录>  安装到 <目录>/.agents/skills/${skillName}（默认当前目录）
+  --dir <目录>      --project 的别名
+  --global, -g      安装到 ~/.agents/skills/${skillName}
+  --help, -h        显示帮助
+
+目标目录已存在时不会覆盖。`
 }
 
 function destinationFor(args, cwd = process.cwd(), home = homedir()) {
-  if (args[0] !== 'install') throw new Error(usage())
-
+  const options = args[0] === 'install' ? args.slice(1) : args
   let project = cwd
   let global = false
-  for (let index = 1; index < args.length; index += 1) {
-    const arg = args[index]
-    if (arg === '--global') {
+  let projectGiven = false
+
+  for (let index = 0; index < options.length; index += 1) {
+    const arg = options[index]
+    if (arg === '--global' || arg === '-g') {
       global = true
-    } else if (arg === '--project' && args[index + 1]) {
-      project = resolve(args[++index])
+    } else if (arg === '--project' || arg === '--dir') {
+      const value = options[index + 1]
+      if (!value || value.startsWith('-')) throw new Error(`缺少参数值：${arg}\n${usage()}`)
+      project = resolve(options[++index])
+      projectGiven = true
     } else {
       throw new Error(`未知参数：${arg}\n${usage()}`)
     }
   }
-  if (global && args.includes('--project')) throw new Error('--global 与 --project 不能同时使用')
+  if (global && projectGiven) throw new Error('--global 与 --project 不能同时使用')
   return join(global ? home : project, '.agents', 'skills', skillName)
 }
 
