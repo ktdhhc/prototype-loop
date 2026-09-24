@@ -58,8 +58,7 @@ npx github:ktdhhc/prototype-loop --dir /path/to/project
 | [ledger-template.md](references/ledger-template.md) | 目标项目内的过程账本骨架 | 建立账本时复制 |
 | [closure.md](references/closure.md) | 收口清单与交付说明模板 | 收口时 |
 | [bin/prototype-loop.mjs](bin/prototype-loop.mjs) | 安装器 | 安装或改安装行为时 |
-| [test/install.test.mjs](test/install.test.mjs) | 安装器测试 | 改安装器后 |
-| 本地 `BACKGROUND.md` | 背景文章：从一次真实协作提炼本 Skill | 了解缘起时（不随仓库发布） |
+| 本地 `BACKGROUND.md`、`test/` | 背景文章与安装器的本地测试 | 了解缘起或改安装器时（均不随仓库发布） |
 
 ## 最小输入与产出
 
@@ -69,7 +68,7 @@ npx github:ktdhhc/prototype-loop --dir /path/to/project
 
 ## 开发状态与试用建议
 
-- 已有 Skill 主文件、七份参考文件、安装器与七项安装器测试；**尚未用 2–3 个独立项目试跑**，不要把"文件已写完"误认为 Skill 已验证。
+- 已有 Skill 主文件、七份参考文件与安装器（带本地测试）；**尚未用 2–3 个独立项目试跑**，不要把"文件已写完"误认为 Skill 已验证。
 - 试用宜覆盖：①冷启动（没有任何设计文档）②已有 `DESIGN.md` 的试画对照 ③中途推翻已冻结结论的回退。
 - 记录触发是否正确、是否先报告依赖、是否先写分层表再测变体、用户看图前是否提前追问、冻结后是否停下、是否被来源项目的局部经验带偏。
 - 仓库已推送 GitHub；npm 包已就绪但首发需账号双重验证，未发布前请用 `npx github:ktdhhc/prototype-loop` 安装。

@@ -6,6 +6,9 @@
 *.draft.md
 *.notes.md
 
+# Local-only development checks; not part of the published skill.
+/test/
+
 # Dependencies and temporary package artifacts.
 node_modules/
 *.tgz
