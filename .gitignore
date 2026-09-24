@@ -1,0 +1,18 @@
+# Local writing and research; not part of the published skill.
+/BACKGROUND.md
+/blog/
+/notes/
+/.scratch/
+*.draft.md
+*.notes.md
+
+# Dependencies and temporary package artifacts.
+node_modules/
+*.tgz
+
+# Local configuration and operating-system files.
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
