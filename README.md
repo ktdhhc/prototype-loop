@@ -22,16 +22,19 @@
 
 ```bash
 # 安装到当前项目的 .agents/skills/prototype-loop（默认）
-npx github:ktdhhc/prototype-loop
+npx prototype-loop
 
 # 安装到用户级 ~/.agents/skills/prototype-loop（所有项目可用）
-npx github:ktdhhc/prototype-loop --global
+npx prototype-loop --global
 
 # 指定目标项目
-npx github:ktdhhc/prototype-loop --dir /path/to/project
+npx prototype-loop --dir /path/to/project
+
+# 也可直接取自 GitHub，参数相同
+npx github:ktdhhc/prototype-loop --global
 ```
 
-选项：`--global`/`-g` 用户级安装、`--project <path>`、`--dir <path>` 指定目标、`--help` 说明；显式写 `install` 子命令等价。安装后**重启该项目的 Agent 会话**，Skill 才会被发现。若该包已发布到 npm，也可用 `npx prototype-loop`，参数相同。也可以不用安装器：直接把本仓库的 `SKILL.md` 与 `references/` 复制成 `<项目>/.agents/skills/prototype-loop/`（或 `~/.agents/skills/prototype-loop/`），效果一样。
+选项：`--global`/`-g` 用户级安装、`--project <path>`、`--dir <path>` 指定目标、`--help` 说明；显式写 `install` 子命令等价。安装后**重启该项目的 Agent 会话**，Skill 才会被发现。也可以不用安装器：直接把本仓库的 `SKILL.md` 与 `references/` 复制成 `<项目>/.agents/skills/prototype-loop/`（或 `~/.agents/skills/prototype-loop/`），效果一样。
 
 安装器**不覆盖已存在的同名技能**；更新前请自行核对并备份旧版本。它只复制技能文件，不会把本地文章、笔记带进目标项目，也不会自动初始化 Git 或推送远端。
 
@@ -71,4 +74,4 @@ npx github:ktdhhc/prototype-loop --dir /path/to/project
 - 已有 Skill 主文件、七份参考文件与安装器（带本地测试）；**尚未用 2–3 个独立项目试跑**，不要把"文件已写完"误认为 Skill 已验证。
 - 试用宜覆盖：①冷启动（没有任何设计文档）②已有 `DESIGN.md` 的试画对照 ③中途推翻已冻结结论的回退。
 - 记录触发是否正确、是否先报告依赖、是否先写分层表再测变体、用户看图前是否提前追问、冻结后是否停下、是否被来源项目的局部经验带偏。
-- 仓库已推送 GitHub；npm 包已就绪但首发需账号双重验证，未发布前请用 `npx github:ktdhhc/prototype-loop` 安装。
+- 仓库已推送 GitHub，并发布到 npm（`prototype-loop`）；本地测试覆盖安装器的目标选择与"已存在不覆盖"行为。
