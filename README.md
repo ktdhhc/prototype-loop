@@ -38,13 +38,19 @@ npx github:ktdhhc/prototype-loop --global
 
 安装器**不覆盖已存在的同名技能**；更新前请自行核对并备份旧版本。它只复制技能文件，不会把本地文章、笔记带进目标项目，也不会自动初始化 Git 或推送远端。
 
-安装后用户可以说"用 `prototype-loop` 设计这个页面，先拆层、每层做原型我看过再定"，或在支持 slash command 的宿主里显式调用 `/prototype-loop`。Skill 应先核对 `impeccable`、`ui-ux-pro-max`、`prototype`、`grilling` 与逐题提问工具；缺失时报告影响并询问是否继续，缺 `prototype`、`grilling` 或提问工具时停在依赖检查，不用文字推演冒充原型验收。
+安装后用户可以说"用 `prototype-loop` 设计这个页面，先拆层、每层做原型我看过再定"，或在支持 slash command 的宿主里显式调用 `/prototype-loop`。Skill 应先实际调用加载四个依赖，并核对逐题提问工具；找到名称或读到片段不算已加载。有技能调用工具时须实际调用，只有宿主没有该机制时才允许完整读取原技能的文件加载路径；当前分支要求的材料也须在使用前读取。
+
+依赖仓库：[`impeccable`](https://github.com/pbakaus/impeccable)、[`ui-ux-pro-max`](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)、[`prototype`](https://github.com/mattpocock/skills/tree/main/skills/engineering/prototype)、[`grilling`](https://github.com/mattpocock/skills/tree/main/skills/productivity/grilling)。具体定位及兼容要求见 [依赖技能来源](references/dependencies.md)；预检逐项附上仓库链接，方便用户安装，不自动安装或覆盖。
+
+缺失或加载失败时报告真实结果，`impeccable`、`ui-ux-pro-max` 可由用户选择降级；缺 `prototype`、`grilling` 或提问工具则阻断。上游入口或规则与本流程冲突时暂停受影响环节，不用摘要冒充原技能执行。
 
 ### 工作方式
 
-**用户向流程**：确认产品事实与视觉依据 → 界面访谈（这页做什么、为谁、到什么边界）→ 拆层闸门（先写分层表初版，再为每层写 2–3 个只差本层决策的反事实变体）→ 逐层看图、答决定性提问、冻结并等放行 → 收口总结视觉依据变化。
+**用户向流程**：确认产品事实与视觉依据 → 界面访谈（这页做什么、为谁、到什么边界）→ 拆层闸门（先写分层表初版，再为每层写 2–3 个只差本层决策的反事实变体）→ 逐层看图初选、grilling 核对、确认本层结论 → 收层后冻结并等放行 → 收口总结视觉依据变化。
 
-**工程向流程**：锁住其他维度制作单差变体 → 真实渲染验收（执行失误当场修、未来层的输入记跨层待办）→ 只问会改变做法的问题 → 写账本并冻结 → 停层等用户放行。层数超过 12 时，向用户建议拆成两个页面或分两大轮，不自行执行。
+**工程向流程**：锁住其他维度制作单差变体 → 真实渲染验收（执行失误当场修、未来层的输入记跨层待办）→ grilling 核对并记录逐题结果或零提问依据 → 用户确认结论 → 固化唯一基线、清理落选产物并验证 → 通过收层闸门才冻结。落选分支每层收尾退出活跃原型，共享组件与仍有用途的样本保留，最终收口检查遗漏。
+
+**原型初选、本层结论确认和下一层授权是三件事**。每层必须核对，但不套固定题序；已有明确答案可以零额外提问，须记录具体依据。“选 B，继续”或连续推进授权都不豁免核对、结论确认、清理和验证。无推进授权则冻结后停下；层数超过 12 时，建议拆成两个页面或分两大轮，不自行执行。
 
 原型结论若要改变既有视觉依据，先记为 `ΔDESIGN` 摆到桌面上，经用户逐条确认后才修订 `DESIGN.md` 等基线文档；基线文档的写入权在用户，不在 Agent。
 
@@ -52,12 +58,13 @@ npx github:ktdhhc/prototype-loop --global
 
 | 路径 | 作用 | 何时读 |
 |---|---|---|
-| [SKILL.md](SKILL.md) | 触发、依赖检查、六个阶段与完成判据 | 触发时 |
+| [SKILL.md](SKILL.md) | 触发、实际加载契约、六个阶段与完成判据 | 触发时 |
+| [dependencies.md](references/dependencies.md) | 依赖仓库地址、技能定位与兼容要求 | 开头预检时 |
 | [axis-pool.md](references/axis-pool.md) | 管理台页面的静态轴示例 | 拆层枚举轴时 |
 | [layers.md](references/layers.md) | 拆层协议：独立性判定、影响半径排序、反事实测试 | 拆层与预演时 |
 | [sampler.md](references/sampler.md) | 组件库采样的元素清单与制作规则 | 组件库未定或试画对照时 |
-| [prototype-loop.md](references/prototype-loop.md) | 锁轴原型、渲染验收、冻结停层与回退 | 每层执行时 |
-| [questions.md](references/questions.md) | 只问决定性问题的挂靠机制与提问技法 | 每层提问前 |
+| [prototype-loop.md](references/prototype-loop.md) | 层循环、基线清理、收层闸门、冻结与回退 | 每层执行时 |
+| [questions.md](references/questions.md) | grilling 核对、零提问依据与决定性问题技法 | 每层初选后 |
 | [ledger-template.md](references/ledger-template.md) | 目标项目内的过程账本骨架 | 建立账本时复制 |
 | [closure.md](references/closure.md) | 收口清单与交付说明模板 | 收口时 |
 | [bin/prototype-loop.mjs](bin/prototype-loop.mjs) | 安装器 | 安装或改安装行为时 |
@@ -71,7 +78,8 @@ npx github:ktdhhc/prototype-loop --global
 
 ## 开发状态与试用建议
 
-- 已有 Skill 主文件、七份参考文件与安装器（带本地测试）；**尚未用 2–3 个独立项目试跑**，不要把"文件已写完"误认为 Skill 已验证。
+- 已有 Skill 主文件、八份参考文件与安装器（带本地测试）；**尚未用 2–3 个独立项目试跑**，不要把"文件已写完"误认为 Skill 已验证。
 - 试用宜覆盖：①冷启动（没有任何设计文档）②已有 `DESIGN.md` 的试画对照 ③中途推翻已冻结结论的回退。
-- 记录触发是否正确、是否先报告依赖、是否先写分层表再测变体、用户看图前是否提前追问、冻结后是否停下、是否被来源项目的局部经验带偏。
+- 记录触发是否正确、是否实际调用依赖并读取当前分支材料、是否报告来源与加载结果、是否先写分层表再测变体、用户看图前是否提前追问、是否被来源项目的局部经验带偏。
+- 收层重点试用：①选定后仍有本层未定边界，继续 grilling 而非直接冻结；②决定均已明确，记零提问依据并确认结论；③“选 B，继续”或连续推进仍完整收层；④落选分支逐层清理但共享产物保留，清理或验证有阻碍时不进入下一层。
 - 仓库已推送 GitHub，并发布到 npm（`prototype-loop`）；本地测试覆盖安装器的目标选择与"已存在不覆盖"行为。
